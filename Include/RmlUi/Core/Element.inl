@@ -1,60 +1,60 @@
 namespace Rml {
 	#ifdef JSSYNTAX_CPP
-	int Element::addEventListener(const String& event, std::function<void(MouseEvent)>&& listener){
-		std::cout << ::EventDispatcher << "\n" << MClickEventListenersIndex.get() << "\n";
-		if(event == "click") {
-			int savedIndex = (*MClickEventListenersIndex);
-			::EventDispatcher->DISPATCH_UI_MCLICK->push_back(new std::function<void(MouseEvent)>(std::move(listener)));
-			(*MClickEventListenersIndex)++;
-			auto& fn = *(::EventDispatcher->DISPATCH_UI_MCLICK->at(savedIndex));
-			::EventDispatcher->DISPATCH_MCLICK->push_back(
-				new std::function<void(MouseEvent)>(
-					[fn, this](MouseEvent evt) {
-						if (__SFML_API::RmlUIcontext == nullptr) return;
+	// int Element::addEventListener(const String& event, std::function<void(MouseEvent)>&& listener){
+	// 	std::cout << ::EventDispatcher << "\n" << MClickEventListenersIndex.get() << "\n";
+	// 	if(event == "click") {
+	// 		int savedIndex = (*MClickEventListenersIndex);
+	// 		::EventDispatcher->DISPATCH_UI_MCLICK->push_back(new std::function<void(MouseEvent)>(std::move(listener)));
+	// 		(*MClickEventListenersIndex)++;
+	// 		auto& fn = *(::EventDispatcher->DISPATCH_UI_MCLICK->at(savedIndex));
+	// 		::EventDispatcher->DISPATCH_MCLICK->push_back(
+	// 			new std::function<void(MouseEvent)>(
+	// 				[fn, this](MouseEvent evt) {
+	// 					if (__SFML_API::RmlUIcontext == nullptr) return;
 						
-						Rml::Element* target =
-						__SFML_API::RmlUIcontext->GetElementAtPoint(
-							Rml::Vector2f{(float)evt.clientX, (float)evt.clientY}
-						);
+	// 					Rml::Element* target =
+	// 					__SFML_API::RmlUIcontext->GetElementAtPoint(
+	// 						Rml::Vector2f{(float)evt.clientX, (float)evt.clientY}
+	// 					);
 						
-						if (target == this) {
-							MouseEvent _evt_sent(
-								evt.clientX, evt.clientY,
-								0, 0,
-								evt.button, evt.buttons,
-								this,
-								0, 0
-							);
+	// 					if (target == this) {
+	// 						MouseEvent _evt_sent(
+	// 							evt.clientX, evt.clientY,
+	// 							0, 0,
+	// 							evt.button, evt.buttons,
+	// 							this,
+	// 							0, 0
+	// 						);
 							
-							fn(_evt_sent);
-						}
-					}
-				)
-			);
+	// 						fn(_evt_sent);
+	// 					}
+	// 				}
+	// 			)
+	// 		);
 			
-			return (*MClickEventListenersIndex);
-		}
-	}
-	int Element::addEventListener(const String& event, std::function<void(MouseEvent)>* listener){
-		if(event == "click") {
-			int savedIndex = (*MClickEventListenersIndex);
-			::EventDispatcher->DISPATCH_UI_MCLICK->push_back(listener);
-			(*MClickEventListenersIndex)++;
-			auto& fn = *(::EventDispatcher->DISPATCH_UI_MCLICK->at(savedIndex));
-			::EventDispatcher->DISPATCH_MCLICK->push_back(new std::function<void(MouseEvent)>([fn,this](MouseEvent evt){
-				if(__SFML_API::RmlUIcontext == nullptr){
-					return;
-				}
-				Rml::Element* target = __SFML_API::RmlUIcontext->GetElementAtPoint(Rml::Vector2f{(float)evt.clientX, (float)evt.clientY});
-				if (target == this) {
-					MouseEvent _evt_sent = MouseEvent(evt.clientX, evt.clientY,0,0,evt.button,evt.buttons,this,0,0);
-					fn(_evt_sent);
-				}
-			}));
+	// 		return (*MClickEventListenersIndex);
+	// 	}
+	// }
+	// int Element::addEventListener(const String& event, std::function<void(MouseEvent)>* listener){
+		// if(event == "click") {
+		// 	int savedIndex = (*MClickEventListenersIndex);
+		// 	::EventDispatcher->DISPATCH_UI_MCLICK->push_back(listener);
+		// 	(*MClickEventListenersIndex)++;
+		// 	auto& fn = *(::EventDispatcher->DISPATCH_UI_MCLICK->at(savedIndex));
+		// 	::EventDispatcher->DISPATCH_MCLICK->push_back(new std::function<void(MouseEvent)>([fn,this](MouseEvent evt){
+		// 		if(__SFML_API::RmlUIcontext == nullptr){
+		// 			return;
+		// 		}
+		// 		Rml::Element* target = __SFML_API::RmlUIcontext->GetElementAtPoint(Rml::Vector2f{(float)evt.clientX, (float)evt.clientY});
+		// 		if (target == this) {
+		// 			MouseEvent _evt_sent = MouseEvent(evt.clientX, evt.clientY,0,0,evt.button,evt.buttons,this,0,0);
+		// 			fn(_evt_sent);
+		// 		}
+		// 	}));
 			
-			return (*MClickEventListenersIndex);
-		}
-	}
+		// 	return (*MClickEventListenersIndex);
+		// }
+	// }
 	#endif
 	
 	template <typename T>

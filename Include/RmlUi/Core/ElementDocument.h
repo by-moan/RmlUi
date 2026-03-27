@@ -93,10 +93,13 @@ private:
 	Element* __createElement(const String& name);
 public:
 	template <typename T>
-	T* createElement(const String& name){
+	T createElement(const String& name){
 		auto instance = __createElement(name); //This method calls internals from the library. Hence the name
-		auto returnT = new T(instance);
+		auto returnT = T(instance);
 		return returnT;
+	}
+	Element* createElement(const String& name){
+		return __createElement(name);
 	}
 	/// Create a text element with the given text content.
 	/// @param[in] text The text content of the text element.
